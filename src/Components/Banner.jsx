@@ -5,6 +5,7 @@ import YouTube from "react-youtube";
 import movieTrailer from "movie-trailer";
 import Modal from "react-modal";
 import { AiOutlineClose } from "react-icons/ai";
+import MovieTrailer from "movie-trailer";
 
 
 const base_url = "https://image.tmdb.org/t/p/original/";
@@ -70,7 +71,9 @@ const Banner = ({ title }) => {
           style={{
             backgroundImage: `url("https://image.tmdb.org/t/p/original/${movies?.backdrop_path}")`,
           }}
-        >
+       >
+           
+          
         
 
           <div className="absolute top-60 lg:left-32 md:left-32 left-6 flex flex-col">
@@ -109,9 +112,10 @@ const Banner = ({ title }) => {
           </div>
           <div className="h-[38rem] footerClass"></div>
         </header>
-      ) : playVideo === true && trailerurl ? (
+       ) : playVideo === true && trailerurl ? ( 
+         
         <div>
-          <Modal
+<Modal
             isOpen={modalopen}
             className="flex justify-center mt-24 w-[48%] lg:ml-[30rem] ml-48 bg-black relative"
           >
@@ -120,6 +124,7 @@ const Banner = ({ title }) => {
               opts={opts}
               className="w-[38rem] h-[32rem]"
             />
+           
             <button
               onClick={handleclose}
               className="text-teal-100 absolute lg:right-60 right-20 left-[30rem] top-4 text-xl"
@@ -127,8 +132,14 @@ const Banner = ({ title }) => {
               <AiOutlineClose />
             </button>
           </Modal>
+
+          
         </div>
-      ) : null}
+       ) : null} 
+
+
+
+
     </>
   );
 };
