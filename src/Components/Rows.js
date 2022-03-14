@@ -7,6 +7,9 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 
+import "swiper/css";
+import "swiper/css/pagination";
+
 const base_url = "https://image.tmdb.org/t/p/original/";
 
 const Rows = ({ title, fetchUrl, islargeRow }) => {
@@ -50,53 +53,67 @@ const Rows = ({ title, fetchUrl, islargeRow }) => {
       autoplay: 1,
     },
   };
-  console.log("modal", modalopen);
+  // console.log("modal", modalopen);
   // console.table("movies ", movies);
-  console.log("video", trailerurl);
+  // console.log("video", trailerurl);
 
   return (
     <div className="bg-black ml-8">
       <h1 className="text-2xl font-bold flex ml-14 text-slate-50">{title}</h1>
 
-      <div className="flex overflow-y-hidden overflow-x-scroll customClass ">
-        {movies.map((movie) => {
-          return (
-            <div key={movie.id} className="  m-1  p-2">
-              <Swiper
-                modules={[Navigation, Pagination, Scrollbar, A11y]}
-                spaceBetween={65}
-                slidesPerView={5}
-                navigation
-                pagination={{ clickable: true }}
-                scrollbar={{ draggable: true }}
-                onSwiper={(swiper) => console.log(swiper)}
-                onSlideChange={() => console.log("slide change")}
-              >
-                <SwiperSlide className="w-full">
+      <div className="  ">
+        <Swiper
+          modules={[Pagination]}
+          slidesPerView={6}
+          navigation
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          // onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log("slide change")}
+          breakpoints={{
+            0: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            426: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 6,
+              spaceBetween: 10,
+            },
+          }}
+        >
+          {movies.map((movie) => {
+            return (
+              <SwiperSlide key={movie.id} className="">
+                <div className="  m-1  p-2">
                   <div className="w-full">
                     <img
-                      onClick={() => handleClick(movie)}
+                      onMouseEnter={() => handleClick(movie)}
                       src={`${base_url}${
                         islargeRow ? movie.poster_path : movie.backdrop_path
                       }`}
                       alt={movie.name}
-                      className={` object-contain h-auto w-48 hover:scale-y-[1.20] hover:scale-x-[1.20] 
+                      className={` object-contain h-auto w-full hover:scale-y-[1.20] hover:scale-x-[1.20] 
                     hover:duration-500 hover:grayscale hover:${movie.title}`}
                     />
                   </div>
-                </SwiperSlide>
-              </Swiper>
-              {/* <p className="text-lg font-semibold text-ellipsis text-white">
-                {movie.name || movie.title || movie.original_title}
-              </p> */}
-            </div>
-          );
-        })}
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
       </div>
       <div className="flex justify-center mt-16 content-center items-center">
         <Modal
           isOpen={modalopen}
-          className="flex justify-center  mt-60 w-[48%] lg:ml-[30rem] ml-48 bg-black relative"
+          className="flex justify-center z-50  mt-60 w-[48%] lg:ml-[30rem] ml-48 bg-black relative"
         >
           {trailerurl && <YouTube videoId={trailerurl} opts={opts} />}
           <button
